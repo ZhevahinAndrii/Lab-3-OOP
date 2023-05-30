@@ -22,5 +22,14 @@ namespace TCP_Server
             Reader = new(stream);
             Writer = new(stream);
         }
+        public async Task ProcessAsync()
+        {
+            try
+            {
+                string? username = await Reader.ReadLineAsync();
+                string? message = $"{username} entered the chat!";
+                Console.WriteLine(message);
+            }
+        }
     }
 }
