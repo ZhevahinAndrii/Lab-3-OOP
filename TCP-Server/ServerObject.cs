@@ -39,7 +39,7 @@ namespace TCP_Server
        protected internal void RemoveConnection(string id)
         {
             ClientObject? client = clients.FirstOrDefault(client => client.Id == id);
-            if (client is not null) clients.Remove(client);
+            if (client!= null) clients.Remove(client);
             client?.Close();
            
         }
@@ -49,7 +49,7 @@ namespace TCP_Server
             {
                 if (client.Id != id)
                 {
-                    await client.Writer.WriteAsync(message);
+                    await client.Writer.WriteLineAsync(message);
                     await client.Writer.FlushAsync();
                 }
             }
