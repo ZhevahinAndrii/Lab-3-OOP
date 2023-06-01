@@ -31,5 +31,22 @@ namespace TCP_Server
                 Console.WriteLine(ex.Message); 
             }
         }
+        internal void RemoveConnection(string id)
+        {
+            ClientObject? client = clients.FirstOrDefault(client => client.Id == id);
+            if (client is not null) clients.Remove(client);
+           
+        }
+        internal async Task BroadCastMessage(string? message,string id)
+        {
+            foreach(var client in clients)
+            {
+                if (client.Id != id)
+                {
+                    await client.Writer.WriteAsync(message);
+                    await client.Writer.FlushAsync();
+                }
+            }
+        }
     }
 }
