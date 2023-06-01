@@ -10,9 +10,9 @@ namespace TCP_Server
 {
     internal class ServerObject
     {
-        TcpListener tcpListener = new(IPAddress.Any, 8888);
+        private readonly TcpListener tcpListener = new(IPAddress.Any, 8888);
         //сервер для відслідковування і реєстрування підключень за портом 8888
-        List<ClientObject> clients = new();
+        private  List<ClientObject> clients = new();
         internal async Task ListenAsync()
         {
             try

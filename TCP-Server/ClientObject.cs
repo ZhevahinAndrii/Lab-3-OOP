@@ -12,8 +12,8 @@ namespace TCP_Server
         protected internal string Id { get; }=Guid.NewGuid().ToString();
         protected internal StreamWriter Writer { get;}
         protected internal StreamReader Reader { get; }
-        TcpClient client;
-        ServerObject server;
+        private readonly TcpClient client;
+        private readonly ServerObject server;
         public ClientObject(TcpClient client,ServerObject server)
         {
             this.client = client;

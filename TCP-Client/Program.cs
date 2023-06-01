@@ -2,7 +2,7 @@
 string host = "127.0.0.1";
 int port = 8888;
 
-using TcpClient client= new TcpClient();
+using TcpClient client= new();
 Console.Write("Enter your name:");
 string? username = Console.ReadLine();
 Console.WriteLine($"Welcome,{username}");
@@ -15,7 +15,8 @@ try
     Reader = new(client.GetStream());
     Writer = new(client.GetStream());
     if (Writer is null || Reader is null) return;
-    
+    Task.Run(() => ReceiveMessageAsync(Reader));
+    await SendMessageAsync(Writer);
 }
 catch(Exception ex)
 {
@@ -45,5 +46,22 @@ async Task ReceiveMessageAsync(StreamReader reader)
             if (string.IsNullOrEmpty(message)) continue;
             Print(message);
         }
+        catch
+        {
+            break;
+        }
     }
+}
+void Print(string message)
+{
+    if (OperatingSystem.IsWindows())
+    {
+        (int Left,int Top) = Console.GetCursorPosition();
+        
+        Console.MoveBufferArea(0, Top,Left, 1, 0, Top + 1);
+        Console.SetCursorPosition(0, Top);
+        Console.WriteLine(message);
+        Console.SetCursorPosition(Left, Top + 1);
+    }
+    else Console.WriteLine(message);
 }
