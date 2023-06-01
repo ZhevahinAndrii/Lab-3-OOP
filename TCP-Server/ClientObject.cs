@@ -18,7 +18,7 @@ namespace TCP_Server
         {
             this.client = client;
             this.server = server;
-            Stream stream = client.GetStream();
+            NetworkStream stream = client.GetStream();
             Reader = new(stream);
             Writer = new(stream);
         }
@@ -28,23 +28,25 @@ namespace TCP_Server
             {
                 string? username = await Reader.ReadLineAsync();
                 string? message = $"{username} entered the chat!";
+                await server.BroadCastMessageAsync(message, Id);
                 Console.WriteLine(message);
+                
                 while (true)
                 {
                     try
                     {
                         message = await Reader.ReadLineAsync();
-                        if (message is null) continue;
+                        if (message==null) continue;
                         message = $"{username}:{message}";
                         Console.WriteLine(message);
-                        await server.BroadCastMessage(message, Id);
+                        await server.BroadCastMessageAsync(message, Id);
 
                     }
                     catch
                     {
                         message = $"{username} has left the chat";
                         Console.WriteLine(message);
-                        await server.BroadCastMessage(message, Id);
+                        await server.BroadCastMessageAsync(message, Id);
                         break;
                     }
                 }

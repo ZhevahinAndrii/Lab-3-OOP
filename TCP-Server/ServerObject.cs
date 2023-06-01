@@ -31,14 +31,19 @@ namespace TCP_Server
             {
                 Console.WriteLine(ex.Message); 
             }
+            finally
+            {
+                Disconnect();
+            }
         }
         internal void RemoveConnection(string id)
         {
             ClientObject? client = clients.FirstOrDefault(client => client.Id == id);
             if (client is not null) clients.Remove(client);
+            client?.Close();
            
         }
-        internal async Task BroadCastMessage(string? message,string id)
+        internal async Task BroadCastMessageAsync(string? message,string id)
         {
             foreach(var client in clients)
             {

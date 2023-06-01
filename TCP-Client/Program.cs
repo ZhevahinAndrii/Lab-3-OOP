@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 string host = "127.0.0.1";
-int port = 8888;
+ushort port = 8888;
 
 using TcpClient client= new();
 Console.Write("Enter your name:");
@@ -11,7 +11,7 @@ StreamWriter? Writer = null;
 
 try
 {
-    client.Connect(host, port);
+    await client.ConnectAsync(host, port);
     Reader = new(client.GetStream());
     Writer = new(client.GetStream());
     if (Writer is null || Reader is null) return;
