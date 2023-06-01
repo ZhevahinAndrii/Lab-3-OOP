@@ -53,6 +53,16 @@ namespace TCP_Server
             {
                 Console.WriteLine(ex.Message);
             }
+            finally
+            {
+                server.RemoveConnection(Id);
+            }
+        }
+        internal void Close()
+        {
+            Writer.Close();
+            Reader.Close();
+            client.Close();
         }
     }
 }
