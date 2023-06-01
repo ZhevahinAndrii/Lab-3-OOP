@@ -29,6 +29,29 @@ namespace TCP_Server
                 string? username = await Reader.ReadLineAsync();
                 string? message = $"{username} entered the chat!";
                 Console.WriteLine(message);
+                while (true)
+                {
+                    try
+                    {
+                        message = await Reader.ReadLineAsync();
+                        if (message is null) continue;
+                        message = $"{username}:{message}";
+                        Console.WriteLine(message);
+                        await server.BroadCastMessage(message, Id);
+
+                    }
+                    catch
+                    {
+                        message = $"{username} has left the chat";
+                        Console.WriteLine(message);
+                        await server.BroadCastMessage(message, Id);
+                        break;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
