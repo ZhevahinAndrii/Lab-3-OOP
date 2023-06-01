@@ -24,6 +24,7 @@ namespace TCP_Server
                     TcpClient client = await tcpListener.AcceptTcpClientAsync();
                     ClientObject clientObject = new(client, this);
                     clients.Add(clientObject);
+                    Task.Run(clientObject.ProcessAsync);
                 }
             }
             catch(Exception ex)
