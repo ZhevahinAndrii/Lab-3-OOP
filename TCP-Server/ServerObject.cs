@@ -10,10 +10,10 @@ namespace TCP_Server
 {
     internal class ServerObject
     {
-        private readonly TcpListener tcpListener = new(IPAddress.Any, 8888);
+        private  TcpListener tcpListener = new(IPAddress.Any, 8888);
         //сервер для відслідковування і реєстрування підключень за портом 8888
-        private  List<ClientObject> clients = new();
-        internal async Task ListenAsync()
+        private List<ClientObject> clients = new();
+        protected internal async Task ListenAsync()
         {
             try
             {
@@ -36,14 +36,14 @@ namespace TCP_Server
                 Disconnect();
             }
         }
-        internal void RemoveConnection(string id)
+       protected internal void RemoveConnection(string id)
         {
             ClientObject? client = clients.FirstOrDefault(client => client.Id == id);
             if (client is not null) clients.Remove(client);
             client?.Close();
            
         }
-        internal async Task BroadCastMessageAsync(string? message,string id)
+       protected internal async Task BroadCastMessageAsync(string message,string id)
         {
             foreach(var client in clients)
             {
@@ -54,7 +54,7 @@ namespace TCP_Server
                 }
             }
         }
-        internal void Disconnect()
+       protected internal void Disconnect()
         {
             foreach(var client in clients)
             {

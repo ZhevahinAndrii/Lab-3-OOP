@@ -12,8 +12,8 @@ namespace TCP_Server
         protected internal string Id { get; }=Guid.NewGuid().ToString();
         protected internal StreamWriter Writer { get;}
         protected internal StreamReader Reader { get; }
-        private readonly TcpClient client;
-        private readonly ServerObject server;
+        private  TcpClient client;
+        private  ServerObject server;
         public ClientObject(TcpClient client,ServerObject server)
         {
             this.client = client;
@@ -60,7 +60,7 @@ namespace TCP_Server
                 server.RemoveConnection(Id);
             }
         }
-        internal void Close()
+       protected internal void Close()
         {
             Writer.Close();
             Reader.Close();
