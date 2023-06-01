@@ -48,5 +48,14 @@ namespace TCP_Server
                 }
             }
         }
+        internal void Disconnect()
+        {
+            foreach(var client in clients)
+            {
+                client.Close();
+
+            }
+            tcpListener.Stop();
+        }
     }
 }
