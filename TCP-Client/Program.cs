@@ -15,7 +15,7 @@ try
     Reader = new(client.GetStream());
     Writer = new(client.GetStream());
     if (Writer is null || Reader is null) return;
-    Task.Run(() => ReceiveMessageAsync(Reader));
+    Task.Run(()=>ReceiveMessageAsync(Reader));
     await SendMessageAsync(Writer);
 }
 catch(Exception ex)
